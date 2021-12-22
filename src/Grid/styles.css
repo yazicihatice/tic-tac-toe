@@ -1,0 +1,7 @@
+.board-cell{
+    background-color: gray;
+    padding: 1em;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+} 

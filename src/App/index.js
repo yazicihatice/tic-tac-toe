@@ -1,8 +1,13 @@
 import "./styles.css";
 import { connect } from "react-redux";
-import { createBoardStatus, setColumnSize, startGame } from "../store/actions";
+import {
+  createBoardStatus,
+  playerClickedGrid,
+  setColumnSize,
+  startGame,
+} from "../store/actions";
 import { Component } from "react";
-import { Grid } from "../Grid/grid";
+import { Cell } from "../Cell/cell";
 
 class App extends Component {
   constructor(props) {
@@ -42,7 +47,7 @@ class App extends Component {
   renderGrid = (arr, key) => {
     const value = arr[key];
     return (
-      <Grid
+      <Cell
         index={key}
         value={value}
         gridClicked={(key) => this.gridClicked(key)}
@@ -51,7 +56,8 @@ class App extends Component {
   };
 
   gridClicked = (index) => {
-    const { whoseTurn, boardCurrentStatus } = this.props;
+    const { whoseTurn, playerClickedGrid } = this.props;
+    playerClickedGrid(index, whoseTurn);
   };
 
   render() {
@@ -82,6 +88,8 @@ const mapDispatchToProps = (dispatch) => {
     startGame: () => dispatch(startGame()),
     setColumnSize: (size) => dispatch(setColumnSize(size)),
     createBoardStatus: (colSize) => dispatch(createBoardStatus(colSize)),
+    playerClickedGrid: (index, turn) =>
+      dispatch(playerClickedGrid(index, turn)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

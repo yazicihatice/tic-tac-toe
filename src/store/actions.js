@@ -2,6 +2,7 @@ import {
   GAME_STARTED,
   SET_COLUMN_SIZE,
   CREATE_BOARD_STATUS,
+  PLAYER_CLICKED_GRID,
 } from "./constants";
 
 export function startGame() {
@@ -16,5 +17,15 @@ export function createBoardStatus(size) {
   return {
     type: CREATE_BOARD_STATUS,
     payload: new Array(size * size).fill(""),
+  };
+}
+
+export function playerClickedGrid(index, whoseTurn) {
+  return {
+    type: PLAYER_CLICKED_GRID,
+    payload: {
+      index,
+      whoseTurn,
+    },
   };
 }

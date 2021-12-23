@@ -17,7 +17,7 @@ class GameRecordBar extends Component {
   render() {
     const { isGameOver, whoseTurn } = this.props;
     return (
-      <>
+      <div className="game-record-bar-wrapper">
         {!isGameOver ? (
           <div className="game-record-bar">
             <div className={`player ${whoseTurn === players.X && "active"}`}>
@@ -29,11 +29,11 @@ class GameRecordBar extends Component {
           </div>
         ) : (
           <div className="completed-game-bar">
-            <p>Winner: {isGameOver && whoseTurn}</p>
+            <h2>Winner: {isGameOver && whoseTurn}</h2>
             <button onClick={this.restartGame}>Restart Game</button>
           </div>
         )}
-      </>
+      </div>
     );
   }
 }

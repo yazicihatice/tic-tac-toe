@@ -4,9 +4,9 @@ import { players } from "../../../../constants";
 
 function Symbol({ type }) {
   return type === players.X ? (
-    <XSymbol width="50px" />
+    <XSymbol width="45px" />
   ) : type === players.O ? (
-    <OSymbol width="50px" />
+    <OSymbol width="45px" />
   ) : null;
 }
 

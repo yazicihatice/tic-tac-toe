@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles.css";
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Home extends React.Component {
   render() {
     const { colSize } = this.state;
     return (
-      <div>
+      <div className="home">
         <input onChange={this.onColSizeOptionChanged} value={colSize} />
         <button onClick={this.onGameStart}>Start Game</button>
       </div>

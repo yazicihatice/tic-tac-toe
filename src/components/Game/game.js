@@ -3,10 +3,10 @@ import GameRecordBar from "./GameRecordBar/gameRecordBar";
 
 function Game() {
   return (
-    <>
+    <div className="Game">
       <Board />
       <GameRecordBar />
-    </>
+    </div>
   );
 }
 

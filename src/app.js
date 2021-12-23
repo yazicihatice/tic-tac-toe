@@ -9,9 +9,9 @@ class App extends React.Component {
     const { isAppInitialized, setColumnSize } = this.props;
 
     return (
-      <>
+      <div className="App">
         {isAppInitialized ? <Game /> : <Home setColumnSize={setColumnSize} />}
-      </>
+      </div>
     );
   }
 }

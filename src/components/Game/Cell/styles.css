@@ -1,13 +1,10 @@
 .board-cell{
-    background-color: gray;
+    background-color: #19181a;
     padding: 1em;
     height: 50px;
     width: 50px;
     cursor: pointer;
-}
-
-.board-cell svg {
-    filter: drop-shadow(2px 4px 6px black);
+    fill: #ffffff;
 }
 
 .success path {

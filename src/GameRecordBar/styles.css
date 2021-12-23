@@ -1,0 +1,12 @@
+.game-record-bar {
+    display: flex;
+}
+
+.player {
+    padding: 5px;
+
+}
+
+.active {
+    font-weight: 800;
+}

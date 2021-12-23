@@ -3,10 +3,15 @@ import {
   SET_COLUMN_SIZE,
   CREATE_BOARD_STATUS,
   PLAYER_CLICKED_GRID,
+  SET_GAME_OVER,
 } from "./constants";
 
 export function startGame() {
   return { type: GAME_STARTED };
+}
+
+export function setGameOver() {
+  return { type: SET_GAME_OVER };
 }
 
 export function setColumnSize(payload) {

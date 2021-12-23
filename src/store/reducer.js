@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   isGameOver: false,
-  columnSize: 3,
+  columnSize: 4,
   boardCurrentStatus: [],
   whoseTurn: players.X,
   successConditionMap: {},

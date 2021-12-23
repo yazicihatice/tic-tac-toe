@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
 
     // assign colSize 3 as default, it would be passed as parameter in future
-    this.props.setColumnSize(3);
+    this.props.setColumnSize(4);
   }
 
   componentDidMount() {
@@ -41,8 +41,26 @@ class App extends Component {
       );
 
       //ADD diagonal success condition too!!
+      let diagonalXSuccessArr = [];
+      if (rowOfIndex === columnOfIndex) {
+        diagonalXSuccessArr = [...Array(colSize)].map(
+          (_, i) => (colSize + 1) * i
+        );
+      }
+      let diagonalYSuccessArr = [];
+      if (rowOfIndex + columnOfIndex === colSize - 1) {
+        // not written 'else if' when centered element is in odd colSize has 2 diagonal success status
+        diagonalYSuccessArr = [...Array(colSize)].map(
+          (_, i) => (colSize - 1) * (i + 1)
+        );
+      }
 
-      keySuccessConditionsMap[i] = [horizontalSuccessArr, verticalSuccessArr];
+      keySuccessConditionsMap[i] = [
+        horizontalSuccessArr,
+        verticalSuccessArr,
+        ...(diagonalXSuccessArr.length ? [diagonalXSuccessArr] : []),
+        ...(diagonalYSuccessArr.length ? [diagonalYSuccessArr] : []),
+      ];
     }
     this.props.setSuccessConditionMap(keySuccessConditionsMap);
   };

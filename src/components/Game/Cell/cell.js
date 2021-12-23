@@ -1,5 +1,5 @@
 import "./styles.css";
-import Symbol from "../Symbol";
+import Symbol from "./Symbol/symbol";
 
 function Cell(props) {
   const { index, value, onClick, isSuccessCell, disabled } = props;

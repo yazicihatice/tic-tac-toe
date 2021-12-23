@@ -6,6 +6,10 @@
     cursor: pointer;
 }
 
+.board-cell svg {
+    filter: drop-shadow(2px 4px 6px black);
+}
+
 .success path {
     fill: green;
 }

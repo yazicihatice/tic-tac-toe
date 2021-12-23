@@ -15,18 +15,20 @@ const initialState = {
   whoseTurn: players.X,
   successConditionMap: {},
   gameEndingMoves: [],
+  isAppInitialized: false,
 };
 const reducer = function (state = initialState, action) {
   switch (action.type) {
     case GAME_STARTED:
       return {
         ...initialState,
-        successConditionMap: state.successConditionMap,
+        //successConditionMap: state.successConditionMap,
         boardCurrentStatus: state.boardCurrentStatus.fill(""),
       };
     case SET_COLUMN_SIZE:
       return {
         ...state,
+        isAppInitialized: true,
         columnSize: action.payload,
       };
     case CREATE_BOARD_STATUS:

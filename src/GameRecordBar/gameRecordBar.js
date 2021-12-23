@@ -11,11 +11,11 @@ class GameRecordBar extends Component {
 
   restartGame = () => {
     const { columnSizeOfBoard: colSize } = this.props;
-    this.props.clearBoardStatus(colSize);
+    this.props.startGame(colSize);
   };
 
   render() {
-    const { isGameOver, whoseTurn, startGame } = this.props;
+    const { isGameOver, whoseTurn } = this.props;
     return (
       <>
         {!isGameOver ? (
@@ -29,8 +29,8 @@ class GameRecordBar extends Component {
           </div>
         ) : (
           <div className="completed-game-bar">
-            <p>Winner: </p>
-            <button onClick={startGame}>Restart Game</button>
+            <p>Winner: {isGameOver && whoseTurn}</p>
+            <button onClick={this.restartGame}>Restart Game</button>
           </div>
         )}
       </>

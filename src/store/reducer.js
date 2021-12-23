@@ -4,7 +4,8 @@ import {
   CREATE_BOARD_STATUS,
   players,
   PLAYER_CLICKED_GRID,
-  SET_GAME_OVER,
+  SET_SUCCESS_CONDITION_MAP,
+  END_GAME_AND_SET_WINNER,
 } from "./constants";
 
 const initialState = {
@@ -12,12 +13,15 @@ const initialState = {
   columnSize: 3,
   boardCurrentStatus: [],
   whoseTurn: players.X,
+  successConditionMap: {},
+  gameEndingMove: [],
 };
 const reducer = function (state = initialState, action) {
   switch (action.type) {
     case GAME_STARTED:
       return {
         ...initialState,
+        successConditionMap: state.successConditionMap,
         boardCurrentStatus: state.boardCurrentStatus.fill(""),
       };
     case SET_COLUMN_SIZE:
@@ -30,20 +34,25 @@ const reducer = function (state = initialState, action) {
         ...state,
         boardCurrentStatus: action.payload,
       };
-    case SET_GAME_OVER:
-      return {
-        ...state,
-        isGameOver: true,
-      };
     case PLAYER_CLICKED_GRID:
-      const { payload: { index, whoseTurn } = {} } = action;
+      const { payload: { boardUpdatedStatus, whoseTurn } = {} } = action;
 
       return {
         ...state,
-        boardCurrentStatus: state.boardCurrentStatus.map((value, i) =>
-          i === index ? whoseTurn : value
-        ),
+        boardCurrentStatus: boardUpdatedStatus,
         whoseTurn: whoseTurn === players.X ? players.O : players.X,
+      };
+    case SET_SUCCESS_CONDITION_MAP:
+      return {
+        ...state,
+        successConditionMap: action.payload,
+      };
+    case END_GAME_AND_SET_WINNER:
+      return {
+        ...state,
+        boardCurrentStatus: action.payload.boardUpdatedStatus,
+        gameEndingMove: action.payload.gameEndingMove,
+        isGameOver: true,
       };
   }
 

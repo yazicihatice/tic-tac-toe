@@ -4,8 +4,9 @@ import {
   createBoardStatus,
   playerClickedGrid,
   setColumnSize,
-  setGameOver,
   startGame,
+  setSuccessConditionMap,
+  finishGame,
 } from "../store/actions";
 import { Component } from "react";
 import { Cell } from "../Cell/cell";
@@ -22,12 +23,28 @@ class App extends Component {
     const { columnSizeOfBoard: colSize } = this.props;
 
     this.props.createBoardStatus(colSize);
-    //this.calculateSuccessStatuses(colSize);
+    this.calculateSuccessStatuses(colSize);
   }
 
-  restartGame = () => {
-    const { columnSizeOfBoard: colSize } = this.props;
-    this.props.clearBoardStatus(colSize);
+  calculateSuccessStatuses = (colSize) => {
+    const gridSize = colSize * colSize;
+    const keySuccessConditionsMap = {};
+
+    for (let i = 0; i < gridSize; i++) {
+      let rowOfIndex = Math.floor(i / colSize);
+      let columnOfIndex = i % colSize;
+      let horizontalSuccessArr = [...Array(colSize)].map(
+        (_, i) => rowOfIndex * colSize + i
+      );
+      let verticalSuccessArr = [...Array(colSize)].map(
+        (_, i) => columnOfIndex + i * colSize
+      );
+
+      //ADD diagonal success condition too!!
+
+      keySuccessConditionsMap[i] = [horizontalSuccessArr, verticalSuccessArr];
+    }
+    this.props.setSuccessConditionMap(keySuccessConditionsMap);
   };
 
   createGameBoardByColumnSize = (props) => {
@@ -58,12 +75,41 @@ class App extends Component {
   };
 
   gridClicked = (index) => {
-    if (index === 5) {
-      this.props.setGameOver();
-      return;
+    const { whoseTurn, boardCurrentStatus } = this.props;
+
+    let boardUpdatedStatus = boardCurrentStatus.map((value, i) =>
+      i === index ? whoseTurn : value
+    );
+
+    this.checkSuccess(index, boardUpdatedStatus);
+  };
+
+  checkSuccess = (index, boardUpdatedStatus) => {
+    const {
+      successConditionMap,
+      columnSizeOfBoard: colSize,
+      whoseTurn,
+    } = this.props;
+    const getSuccessArrOfIndex = successConditionMap[index];
+    let gameEndingMove = [];
+
+    for (let i = 0; i < getSuccessArrOfIndex.length; i++) {
+      let checkString = "";
+      for (let j = 0; j < colSize; j++) {
+        let val = boardUpdatedStatus[getSuccessArrOfIndex[i][j]];
+        checkString = checkString.concat(val);
+      }
+
+      if (checkString === new Array(colSize).fill(whoseTurn).join("")) {
+        gameEndingMove.push(getSuccessArrOfIndex[i]);
+      }
     }
-    const { whoseTurn, playerClickedGrid } = this.props;
-    playerClickedGrid(index, whoseTurn);
+
+    if (gameEndingMove.length > 0) {
+      this.props.finishGame(boardUpdatedStatus, gameEndingMove);
+    } else {
+      this.props.playerClickedGrid(boardUpdatedStatus, whoseTurn);
+    }
   };
 
   render() {
@@ -83,6 +129,8 @@ const mapStateToProps = (state) => {
     boardCurrentStatus: state.boardCurrentStatus,
     isGameOver: state.isGameOver,
     whoseTurn: state.whoseTurn,
+    successConditionMap: state.successConditionMap,
+    gameEndingMove: state.gameEndingMove,
   };
 };
 
@@ -90,10 +138,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     startGame: () => dispatch(startGame()),
     setColumnSize: (size) => dispatch(setColumnSize(size)),
-    setGameOver: () => dispatch(setGameOver()),
     createBoardStatus: (colSize) => dispatch(createBoardStatus(colSize)),
     playerClickedGrid: (index, turn) =>
       dispatch(playerClickedGrid(index, turn)),
+    setSuccessConditionMap: (map) => dispatch(setSuccessConditionMap(map)),
+    finishGame: (gameEndingMove) => dispatch(finishGame(gameEndingMove)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,13 +1,30 @@
-import GameRecordBar from "./components/GameRecordBar/gameRecordBar";
-import Board from "./components/Board/board";
+import React from "react";
+import Home from "./components/Home/home";
+import { setColumnSize } from "./store/actions";
+import { connect } from "react-redux";
+import Game from "./components/Game/game";
 
-const App = () => {
-  return (
-    <>
-      <Board />
-      <GameRecordBar />
-    </>
-  );
+class App extends React.Component {
+  render() {
+    const { isAppInitialized, setColumnSize } = this.props;
+
+    return (
+      <>
+        {isAppInitialized ? <Game /> : <Home setColumnSize={setColumnSize} />}
+      </>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    isAppInitialized: state.isAppInitialized,
+  };
 };
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setColumnSize: (size) => dispatch(setColumnSize(size)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

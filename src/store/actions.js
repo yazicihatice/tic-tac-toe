@@ -2,7 +2,7 @@ import {
   GAME_STARTED,
   SET_COLUMN_SIZE,
   CREATE_BOARD_STATUS,
-  PLAYER_CLICKED_GRID,
+  PLAYER_CLICKED_CELL,
   SET_SUCCESS_CONDITION_MAP,
   END_GAME_AND_SET_WINNER,
 } from "./constants";
@@ -22,9 +22,9 @@ export function createBoardStatus(size) {
   };
 }
 
-export function playerClickedGrid(boardUpdatedStatus, whoseTurn) {
+export function playerClickedCell(boardUpdatedStatus, whoseTurn) {
   return {
-    type: PLAYER_CLICKED_GRID,
+    type: PLAYER_CLICKED_CELL,
     payload: {
       boardUpdatedStatus,
       whoseTurn,

@@ -1,5 +1,5 @@
-import Board from "../Board/board";
-import GameRecordBar from "../GameRecordBar/gameRecordBar";
+import GameRecordBar from "./components/GameRecordBar/gameRecordBar";
+import Board from "./components/Board/board";
 
 const App = () => {
   return (

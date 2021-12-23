@@ -9,3 +9,7 @@
 .success path {
     fill: green;
 }
+
+.disabled {
+    pointer-events: none;
+}

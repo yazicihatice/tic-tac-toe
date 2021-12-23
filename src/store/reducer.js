@@ -1,16 +1,16 @@
+import { players } from "../constants";
 import {
   GAME_STARTED,
   SET_COLUMN_SIZE,
   CREATE_BOARD_STATUS,
-  players,
-  PLAYER_CLICKED_GRID,
+  PLAYER_CLICKED_CELL,
   SET_SUCCESS_CONDITION_MAP,
   END_GAME_AND_SET_WINNER,
 } from "./constants";
 
 const initialState = {
   isGameOver: false,
-  columnSize: 4,
+  columnSize: 3,
   boardCurrentStatus: [],
   whoseTurn: players.X,
   successConditionMap: {},
@@ -34,7 +34,7 @@ const reducer = function (state = initialState, action) {
         ...state,
         boardCurrentStatus: action.payload,
       };
-    case PLAYER_CLICKED_GRID:
+    case PLAYER_CLICKED_CELL:
       const { payload: { boardUpdatedStatus, whoseTurn } = {} } = action;
 
       return {

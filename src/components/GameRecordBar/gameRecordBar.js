@@ -1,8 +1,8 @@
 import "./styles.css";
 import { connect } from "react-redux";
-import { startGame } from "../store/actions";
+import { startGame } from "../../store/actions";
 import { Component } from "react";
-import { players } from "../store/constants";
+import { players } from "../../constants";
 
 class GameRecordBar extends Component {
   constructor(props) {

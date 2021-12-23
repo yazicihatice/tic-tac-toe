@@ -63,13 +63,16 @@ class App extends Component {
     );
   };
 
-  renderGrid = (arr, key) => {
-    const value = arr[key];
+  renderGrid = (boardCurrentStatus, key) => {
+    const gridValue = boardCurrentStatus[key];
+    const isSuccessGrid = this.props.gameEndingMoves.flat().includes(key);
+
     return (
       <Cell
         index={key}
-        value={value}
+        value={gridValue}
         gridClicked={(key) => this.gridClicked(key)}
+        isSuccessGrid={isSuccessGrid}
       />
     );
   };
@@ -91,7 +94,7 @@ class App extends Component {
       whoseTurn,
     } = this.props;
     const getSuccessArrOfIndex = successConditionMap[index];
-    let gameEndingMove = [];
+    let gameEndingMoves = [];
 
     for (let i = 0; i < getSuccessArrOfIndex.length; i++) {
       let checkString = "";
@@ -101,12 +104,12 @@ class App extends Component {
       }
 
       if (checkString === new Array(colSize).fill(whoseTurn).join("")) {
-        gameEndingMove.push(getSuccessArrOfIndex[i]);
+        gameEndingMoves.push(getSuccessArrOfIndex[i]);
       }
     }
 
-    if (gameEndingMove.length > 0) {
-      this.props.finishGame(boardUpdatedStatus, gameEndingMove);
+    if (gameEndingMoves.length > 0) {
+      this.props.finishGame(boardUpdatedStatus, gameEndingMoves);
     } else {
       this.props.playerClickedGrid(boardUpdatedStatus, whoseTurn);
     }
@@ -130,7 +133,7 @@ const mapStateToProps = (state) => {
     isGameOver: state.isGameOver,
     whoseTurn: state.whoseTurn,
     successConditionMap: state.successConditionMap,
-    gameEndingMove: state.gameEndingMove,
+    gameEndingMoves: state.gameEndingMoves,
   };
 };
 
@@ -142,7 +145,8 @@ const mapDispatchToProps = (dispatch) => {
     playerClickedGrid: (index, turn) =>
       dispatch(playerClickedGrid(index, turn)),
     setSuccessConditionMap: (map) => dispatch(setSuccessConditionMap(map)),
-    finishGame: (gameEndingMove) => dispatch(finishGame(gameEndingMove)),
+    finishGame: (boardUpdatedStatus, gameEndingMoves) =>
+      dispatch(finishGame(boardUpdatedStatus, gameEndingMoves)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

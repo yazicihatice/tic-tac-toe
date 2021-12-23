@@ -14,7 +14,7 @@ const initialState = {
   boardCurrentStatus: [],
   whoseTurn: players.X,
   successConditionMap: {},
-  gameEndingMove: [],
+  gameEndingMoves: [],
 };
 const reducer = function (state = initialState, action) {
   switch (action.type) {
@@ -51,7 +51,7 @@ const reducer = function (state = initialState, action) {
       return {
         ...state,
         boardCurrentStatus: action.payload.boardUpdatedStatus,
-        gameEndingMove: action.payload.gameEndingMove,
+        gameEndingMoves: action.payload.gameEndingMoves,
         isGameOver: true,
       };
   }

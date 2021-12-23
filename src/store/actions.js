@@ -39,9 +39,9 @@ export function setSuccessConditionMap(mapObj) {
   };
 }
 
-export function finishGame(boardUpdatedStatus, gameEndingMove) {
+export function finishGame(boardUpdatedStatus, gameEndingMoves) {
   return {
     type: END_GAME_AND_SET_WINNER,
-    payload: { boardUpdatedStatus, gameEndingMove },
+    payload: { boardUpdatedStatus, gameEndingMoves },
   };
 }

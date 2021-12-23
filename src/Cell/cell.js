@@ -1,12 +1,16 @@
 import "./styles.css";
-import { PlayerImageMap } from "../store/constants";
+import { Symbol } from "../Symbol";
 
 export function Cell(props) {
-  const { index, value, gridClicked } = props;
-
+  const { index, value, gridClicked, isSuccessGrid } = props;
   return (
-    <td key={index} className="board-cell" onClick={() => gridClicked(index)}>
-      <img src={PlayerImageMap[value]} width={50} />
+    <td
+      key={index}
+      className={"board-cell ${}"}
+      className={`board-cell ${isSuccessGrid && "success"}`}
+      onClick={() => gridClicked(index)}
+    >
+      <Symbol type={value} />
     </td>
   );
 }

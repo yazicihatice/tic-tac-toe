@@ -1,20 +1,18 @@
-import React from "react";
-import Home from "./components/Home/home";
-import { setColumnSize } from "./store/actions";
-import { connect } from "react-redux";
-import Game from "./components/Game/game";
+import React from 'react';
+import Home from './components/Home/home';
+import { setColumnSize } from './store/actions';
+import { connect } from 'react-redux';
+import Game from './components/Game/game';
 
-class App extends React.Component {
-  render() {
-    const { isAppInitialized, setColumnSize } = this.props;
+const App = (props) => {
+  const { isAppInitialized, setColumnSize } = props;
 
-    return (
-      <div className="App">
-        {isAppInitialized ? <Game /> : <Home setColumnSize={setColumnSize} />}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      {isAppInitialized ? <Game /> : <Home setColumnSize={setColumnSize} />}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

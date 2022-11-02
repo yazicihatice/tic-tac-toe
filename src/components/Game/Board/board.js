@@ -1,5 +1,5 @@
-import "./styles.css";
-import { connect } from "react-redux";
+import './styles.css';
+import { connect } from 'react-redux';
 import {
   createBoardStatus,
   playerClickedCell,
@@ -7,34 +7,34 @@ import {
   startGame,
   setSuccessConditionMap,
   finishGame,
-} from "../../../store/actions";
-import { Component } from "react";
-import Cell from "../Cell/cell";
-import { calculateSuccessStatuses, getGameEndingMoves } from "../../../utils";
+} from '../../../store/actions';
+import { useEffect } from 'react';
+import Cell from '../Cell/cell';
+import { calculateSuccessStatuses, getGameEndingMoves } from '../../../utils';
 
-class App extends Component {
-  componentDidMount() {
-    const {
-      columnSizeOfBoard: colSize,
-      setSuccessConditionMap,
-      createBoardStatus,
-    } = this.props;
+const App = (props) => {
+  const {
+    columnSizeOfBoard: colSize,
+    setSuccessConditionMap,
+    createBoardStatus,
+    isGameOver,
+  } = props;
 
+  useEffect(() => {
     createBoardStatus(colSize);
-
     const successStatuses = calculateSuccessStatuses(colSize);
     setSuccessConditionMap(successStatuses);
-  }
+  }, [colSize, createBoardStatus, setSuccessConditionMap]);
 
-  createGameBoardByColumnSize = () => {
-    const { columnSizeOfBoard: colSize } = this.props;
+  const createGameBoardByColumnSize = () => {
+    const { columnSizeOfBoard: colSize } = props;
 
     return (
       <>
         {[...Array(colSize)].map((_, row) => (
           <tr key={row} className="board-row">
             {[...Array(colSize)].map((_, col) =>
-              this.renderCell(colSize * row + col)
+              renderCell(colSize * row + col)
             )}
           </tr>
         ))}
@@ -42,8 +42,8 @@ class App extends Component {
     );
   };
 
-  renderCell = (key) => {
-    const { boardCurrentStatus, gameEndingMoves } = this.props;
+  const renderCell = (key) => {
+    const { boardCurrentStatus, gameEndingMoves } = props;
 
     const cellValue = boardCurrentStatus[key];
     const isSuccessCell = gameEndingMoves.flat().includes(key);
@@ -51,16 +51,17 @@ class App extends Component {
 
     return (
       <Cell
+        key={key}
         index={key}
         value={cellValue}
-        onClick={this.cellClicked}
+        onClick={cellClicked}
         isSuccessCell={isSuccessCell}
         disabled={disabled}
       />
     );
   };
 
-  cellClicked = (index) => {
+  const cellClicked = (index) => {
     const {
       whoseTurn,
       boardCurrentStatus,
@@ -68,7 +69,7 @@ class App extends Component {
       columnSizeOfBoard: colSize,
       finishGame,
       playerClickedCell,
-    } = this.props;
+    } = props;
 
     let boardUpdatedStatus = boardCurrentStatus.map((value, i) =>
       i === index ? whoseTurn : value
@@ -90,17 +91,14 @@ class App extends Component {
     }
   };
 
-  render() {
-    const { isGameOver } = this.props;
-    return (
-      <div className="App">
-        <table id="students" className={`${isGameOver && "disabled"}`}>
-          <tbody>{this.createGameBoardByColumnSize()}</tbody>
-        </table>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <table id="students" className={`${isGameOver && 'disabled'}`}>
+        <tbody>{createGameBoardByColumnSize()}</tbody>
+      </table>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

@@ -1,47 +1,44 @@
-import "./styles.css";
-import { connect } from "react-redux";
-import { Component } from "react";
-import { startGame } from "../../../store/actions";
-import { players } from "../../../constants";
+import './styles.css';
+import { connect } from 'react-redux';
+import { startGame } from '../../../store/actions';
+import { players } from '../../../constants';
+import { isNoWinner } from '../../../store/selectors';
 
-class GameRecordBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  restartGame = () => {
-    const { columnSizeOfBoard: colSize } = this.props;
-    this.props.startGame(colSize);
+const GameRecordBar = (props) => {
+  const restartGame = () => {
+    const { columnSizeOfBoard: colSize } = props;
+    props.startGame(colSize);
   };
 
-  render() {
-    const { isGameOver, whoseTurn } = this.props;
-    return (
-      <div className="game-record-bar-wrapper">
-        {!isGameOver ? (
-          <div className="game-record-bar">
-            <div className={`player ${whoseTurn === players.X && "active"}`}>
-              Player 1 ( X )
-            </div>
-            <div className={`player ${whoseTurn === players.O && "active"}`}>
-              Player 2 ( O )
-            </div>
+  const { isGameOver, whoseTurn, isNoWinner } = props;
+  return (
+    <div className="game-record-bar-wrapper">
+      {!isGameOver ? (
+        <div className="game-record-bar">
+          <div className={`player ${whoseTurn === players.X && 'active'}`}>
+            Player 1 ( X )
           </div>
-        ) : (
-          <div className="completed-game-bar">
-            <h2>Winner: {isGameOver && whoseTurn}</h2>
-            <button onClick={this.restartGame}>Restart Game</button>
+          <div className={`player ${whoseTurn === players.O && 'active'}`}>
+            Player 2 ( O )
           </div>
-        )}
-      </div>
-    );
-  }
-}
+        </div>
+      ) : (
+        <div className="completed-game-bar">
+          <h2 className="game-score">
+            {isGameOver && isNoWinner ? 'NO WINNER' : `Winner: ${whoseTurn}`}
+          </h2>
+          <button onClick={restartGame}>Restart Game</button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     isGameOver: state.isGameOver,
     whoseTurn: state.whoseTurn,
+    isNoWinner: isNoWinner(state),
   };
 };
 

@@ -1,4 +1,4 @@
-import { players } from "../constants";
+import { players } from '../constants';
 import {
   GAME_STARTED,
   SET_COLUMN_SIZE,
@@ -6,7 +6,7 @@ import {
   PLAYER_CLICKED_CELL,
   SET_SUCCESS_CONDITION_MAP,
   END_GAME_AND_SET_WINNER,
-} from "./constants";
+} from './constants';
 
 const initialState = {
   isGameOver: false,
@@ -16,14 +16,16 @@ const initialState = {
   successConditionMap: {},
   gameEndingMoves: [],
   isAppInitialized: false,
+  turnCount: 0,
 };
 const reducer = function (state = initialState, action) {
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case GAME_STARTED:
       return {
         ...initialState,
         //successConditionMap: state.successConditionMap,
-        boardCurrentStatus: state.boardCurrentStatus.fill(""),
+        boardCurrentStatus: state.boardCurrentStatus.fill(''),
       };
     case SET_COLUMN_SIZE:
       return {
@@ -43,6 +45,8 @@ const reducer = function (state = initialState, action) {
         ...state,
         boardCurrentStatus: boardUpdatedStatus,
         whoseTurn: whoseTurn === players.X ? players.O : players.X,
+        turnCount: ++state.turnCount,
+        isGameOver: state.turnCount === state.columnSize * state.columnSize,
       };
     case SET_SUCCESS_CONDITION_MAP:
       return {

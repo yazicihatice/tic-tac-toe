@@ -17,3 +17,7 @@
     font-weight: bold;
     border-bottom: 3px solid black;
 }
+
+.game-score {
+    color: #a009ec;
+}

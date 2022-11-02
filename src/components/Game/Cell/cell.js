@@ -1,13 +1,13 @@
-import "./styles.css";
-import Symbol from "./Symbol/symbol";
+import './styles.css';
+import Symbol from './Symbol/symbol';
 
 function Cell(props) {
   const { index, value, onClick, isSuccessCell, disabled } = props;
+
   return (
     <td
-      key={index}
-      className={`board-cell ${disabled && "disabled"} ${
-        isSuccessCell && "success"
+      className={`board-cell ${disabled && 'disabled'} ${
+        isSuccessCell && 'success'
       }`}
       onClick={() => onClick(index)}
     >

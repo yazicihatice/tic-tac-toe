@@ -1,13 +1,13 @@
-import Board from "./Board/board";
-import GameRecordBar from "./GameRecordBar/gameRecordBar";
+import Board from './Board/board';
+import GameRecordBar from './GameRecordBar/gameRecordBar';
 
-function Game() {
+const Game = () => {
   return (
     <div className="Game">
       <Board />
       <GameRecordBar />
     </div>
   );
-}
+};
 
 export default Game;

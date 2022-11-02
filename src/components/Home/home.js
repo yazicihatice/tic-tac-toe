@@ -1,38 +1,32 @@
-import React from "react";
-import "./styles.css";
+import React, { useEffect, useRef, useState } from 'react';
+import './styles.css';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      colSize: 3,
-    };
-  }
+const Home = (props) => {
+  const [colSize, setColSize] = useState(3);
 
-  onColSizeOptionChanged = (event) => {
-    this.setState({ colSize: event.target.value });
+  const onColSizeOptionChanged = (event) => {
+    setColSize(event.target.value);
   };
 
-  onGameStart = () => {
-    const { colSize } = this.state;
-    if (+colSize < 3 || +colSize > 10) {
-      this.setState({ colSize: 3 });
+  const onGameStart = (e) => {
+    e.preventDefault();
 
+    if (+colSize < 3 || +colSize > 10) {
+      setColSize(3);
       return;
     }
 
-    this.props.setColumnSize(+colSize);
+    props.setColumnSize(+colSize);
   };
 
-  render() {
-    const { colSize } = this.state;
-    return (
-      <div className="home">
-        <input onChange={this.onColSizeOptionChanged} value={colSize} />
-        <button onClick={this.onGameStart}>Start Game</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="home">
+      <form>
+        <input onChange={onColSizeOptionChanged} value={colSize} />
+        <button onClick={onGameStart}>Start Game</button>
+      </form>
+    </div>
+  );
+};
 
 export default Home;
